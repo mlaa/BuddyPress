@@ -1130,8 +1130,10 @@ function bp_attachments_cover_image_generate_file( $args = array(), $cover_image
 		$cover_image_class = new BP_Attachment_Cover_Image();
 	}
 
+	$bp_attachments_uploads_dir = bp_attachments_uploads_dir_get();
+	$bp_attachments_uploads_dir = $cover_image_class->upload_dir_filter( $bp_attachments_uploads_dir );
 	// Make sure the file is inside the Cover Image Upload path.
-	if ( false === strpos( $args['file'], $cover_image_class->upload_path ) ) {
+	if ( false === strpos( $args['file'], $bp_attachments_uploads_dir['path'] ) ) {
 		return false;
 	}
 
@@ -1302,6 +1304,7 @@ function bp_attachments_cover_image_ajax_upload() {
 
 	// Get BuddyPress Attachments Uploads Dir datas.
 	$bp_attachments_uploads_dir = bp_attachments_uploads_dir_get();
+	$bp_attachments_uploads_dir = $cover_image_attachment->upload_dir_filter( $bp_attachments_uploads_dir );
 
 	// The BP Attachments Uploads Dir is not set, stop.
 	if ( ! $bp_attachments_uploads_dir ) {
